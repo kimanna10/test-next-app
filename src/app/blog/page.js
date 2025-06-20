@@ -1,23 +1,29 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
-async function getPosts() {
-  const res = await fetch("https://dummyjson.com/posts", {
-    next: { revalidate: 60 }, // SSG с ISR (обновление раз в 60 сек)
-  });
-  const data = await res.json();
-  return data.posts;
-}
-
-export default async function Blog() {
+export default function Blog() {
+  const [posts, setPosts] = useState([]);
   const router = useRouter();
 
-  const posts = await getPosts();
+  useEffect(() => {
+    async function fetchPosts() {
+      try {
+        const res = await fetch("https://dummyjson.com/posts");
+        const data = await res.json();
+        setPosts(data.posts);
+      } catch (error) {
+        console.error("Ошибка при загрузке постов:", error);
+      }
+    }
+
+    fetchPosts();
+  }, []);
 
   return (
     <main className="w-full">
       <div className="container mx-auto px-4">
-        <section className="">
+        <section>
           <h1 className="text-xl font-bold mb-4">Blog Page</h1>
 
           {posts.map((post) => (
