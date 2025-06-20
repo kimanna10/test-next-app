@@ -1,9 +1,5 @@
-"use client";
-import { useParams } from "next/navigation";
-
-export default function PostId() {
-  const params = useParams();
-  const postId = params?.postId;
+export default function PostId({ params }) {
+  const { postId } = params;
 
   return (
     <main className="w-full">
