@@ -1,7 +1,10 @@
-import { use } from "react";
+"use client";
+import { useParams } from "next/navigation";
 
-export default function PostId({ params }) {
-  const { postId } = use(params);
+export default function PostId() {
+  const params = useParams();
+  const postId = params?.postId;
+
   return (
     <main className="w-full">
       <section className="container mx-auto px-4">
